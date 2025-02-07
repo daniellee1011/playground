@@ -1,24 +1,21 @@
 #include <iostream>
-#include <string>
 
 class ListNode {
 public:
     int data;
     ListNode* next;
-
     ListNode(int x) : data(x), next(nullptr) {}
 };
 
 class LinkedList {
 private:
     ListNode* head;
-
 public:
     LinkedList() : head(nullptr) {}
 
     void insert(int data) {
         ListNode* newNode = new ListNode(data);
-        
+
         if (!head) {
             head = newNode;
         } else {
@@ -30,50 +27,45 @@ public:
         }
     }
 
-    bool remove(int data) {
-        if (!head) return false;
+    void remove(int data) {
+        if (!head) return;
         if (head->data == data) {
             ListNode* temp = head;
             head = head->next;
             delete temp;
-            return true;
+            return;
         }
 
-        ListNode *prev = nullptr;
+        ListNode* prev = nullptr;
         ListNode* curr = head;
-
         while (curr && curr->data != data) {
             prev = curr;
             curr = curr->next;
         }
-
-        if (!curr) return false;
-            
-        if (prev) {
-                prev->next = curr->next;
+        
+        if (curr) {
+            prev->next = curr->next;
+            delete curr;
         }
-        delete curr;
-
-        return true;
     }
 
-void reverseList() {
-    if (!head) {
-        return;
+    void reverse() {
+        // 1 -> 2 -> 3 -> 4 (head)
+        // 1 <- 2 <- 3 <- 4
+        if (!head) return;
+
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+
+        while (curr) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        head = prev;
     }
-
-    ListNode* prev = nullptr;
-    ListNode* curr = head;
-
-    while (curr) {
-        ListNode* next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;  // Crashing here? Check next's value in logs.
-    }
-
-    head = prev;  // Update the head safely
-}
 
     void print() {
         ListNode* temp = head;
@@ -87,7 +79,6 @@ void reverseList() {
 
 int main() {
     LinkedList ll;
-
     ll.insert(1);
     ll.insert(2);
     ll.insert(3);
@@ -95,12 +86,11 @@ int main() {
     ll.insert(5);
     ll.print();
 
-    std::string s = ll.remove(3) ? "True" : "False";
-    std::cout << s << std::endl;
+    ll.remove(3);
     ll.print();
 
-    ll.reverseList();
+    ll.reverse();
     ll.print();
-
+    
     return 0;
 }
