@@ -1,0 +1,1 @@
+cmd_/home/daniel/git/playground/250209/mychardev.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/daniel/git/playground/250209/mychardev.ko /home/daniel/git/playground/250209/mychardev.o /home/daniel/git/playground/250209/mychardev.mod.o;  true
